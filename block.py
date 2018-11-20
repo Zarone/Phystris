@@ -35,7 +35,8 @@ class Block():
         #block.joints.extend((j1, j2, j3))
     
         for i in range(1,3):
-            self.joints[-i].error_bias = pow(1.0 - 0.5, 60.0)
+            self.joints[-i].collide_bodies = False
+            self.joints[-i].error_bias = pow(1.0-0.5, 60.0)
 
         self.space.add(self.joints[-1])
         self.space.add(self.joints[-2])
