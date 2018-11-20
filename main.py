@@ -1,8 +1,7 @@
 import pygame
-import pymunk
 from game import Game
-import math
 from block import Block
+from shape import Shape
 
 pygame.init()
 
@@ -22,13 +21,24 @@ def render():
     screen.fill((0,0,0))
 
     for s in game.shapes:
-        pygame.draw.polygon(screen, s.shape.color, s.wordlVertices())
+        for b in s.blocks:
+            pygame.draw.polygon(screen, b.shape.color, b.wordl_vertices())
 
 while not done:
     for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                        done = True
-    
+                    done = True
+
+                if event.type == pygame.MOUSEBUTTONUP:
+                    pos = pygame.mouse.get_pos()
+                    game.shapes.append(Shape(pos, (20,20,), 0, game.space))
+                
+                if event.type == pygame.KEYUP and event.key == pygame.K_p:
+                    for b in game.shapes[-1].blocks:
+                        b.delete()
+                    game.shapes.pop(-1)
+                    
+
     pressed = pygame.key.get_pressed()
 
     game.tick()
